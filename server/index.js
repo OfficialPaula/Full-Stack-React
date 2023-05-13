@@ -4,39 +4,29 @@ const app = express()
 
 const path = require('path')
 
-//const db = require('./queries')
+const db = require('./queries')
 
-const PORT = 9001
+const PORT = process.env.PORT || 9001;
 
-app.get('/api', (request, response) =>{
-  response.json({message: 'Yo yo from the server!'})
-})
-
-// Middleware
-
-// host react app as static files
-app.use(express.static(path.resolve(__dirname, '../client/build')))
+const bodyParser = require('body-parser')
 
 // Routes
 app.get('/', (req, res) => {
-  // we'll do some stuff here
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
 })
 
-//CRUD
-// CREATE - add data to db
-// READ - get data from db
-//app.get('/links', db.getLinks)
-// UPDATE - update data in db
-// DELETE - remove data from db
+app.use(bodyParser.json()) 
+app.use( bodyParser.urlencoded({ extended: true, }))
+// host react app as static files
+app.use(express.static(path.resolve(__dirname, '../client/build')))
 
+//CRUD
+app.get('/links', db.getLinks)
+app.get('/links/:id', db.getLinkById)
+app.post('/links', db.createLink)
+app.put('/links/:id', db.updateLink)
+app.delete('/links/:id', db.deleteLink)
 // Starting Express on our PORT
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}.`)
 })
-
-
-
-
-
-  

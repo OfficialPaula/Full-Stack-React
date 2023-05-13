@@ -19,7 +19,7 @@ const TableBody = (props) => {
   const filteredData = data.filter((link) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const lowerCaseName = link.name.toLowerCase();
-    const lowerCaseURL = link.URL.toLowerCase();
+    const lowerCaseURL = link.url.toLowerCase();
     return lowerCaseName.includes(lowerCaseSearchTerm) || lowerCaseURL.includes(lowerCaseSearchTerm);
   });
 
@@ -28,7 +28,7 @@ const TableBody = (props) => {
       <tr key={index}>
         <td>{row.name}</td>
         <td>
-          <a href={row.URL}>{row.URL}</a>
+          <a href={row.url}>{row.url}</a>
         </td>
         <td>
           <button onClick={() => props.removeLink(index)}>Delete</button>

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import Table from './Table';
 import Form from './Form';
 //import { response } from 'express';
@@ -8,24 +7,22 @@ const LinkContainer = (props) => {
   const [favLinks, setFavLinks] = useState([]);
 
   useEffect(() => {
-    fetch('/api')
-    .then((response) => response.json())
-    .then((data) =>{
-      console.log(data)
-      setFavLinks(data.favLinks)
-    }) 
-    .catch((err) => {
-      console.log(err)
-    })
-  },[])
+    const favLinks = JSON.parse(localStorage.getItem('links'));
+    if (favLinks) {
+      setFavLinks(favLinks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('links', JSON.stringify(favLinks));
+  }, [favLinks]);
 
   const handleRemove = (index) => {
     setFavLinks(favLinks.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (favLink) => { 
-    console.log("in handle Submit")
-    setFavLinks([...favLinks, favLink]);
+     setFavLinks([...favLinks, favLink]);
   };
 
   return (

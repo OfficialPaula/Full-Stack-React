@@ -4,9 +4,13 @@ const app = express()
 
 const path = require('path')
 
-const db = require('./queries')
+//const db = require('./queries')
 
 const PORT = 9001
+
+app.get('/api', (request, response) =>{
+  response.json({message: 'Yo yo from the server!'})
+})
 
 // Middleware
 
@@ -22,7 +26,7 @@ app.get('/', (req, res) => {
 //CRUD
 // CREATE - add data to db
 // READ - get data from db
-app.get('/links', db.getLinks)
+//app.get('/links', db.getLinks)
 // UPDATE - update data in db
 // DELETE - remove data from db
 
@@ -30,3 +34,9 @@ app.get('/links', db.getLinks)
 app.listen(PORT, () => {
   console.log(`The app is running on port ${PORT}.`)
 })
+
+
+
+
+
+  

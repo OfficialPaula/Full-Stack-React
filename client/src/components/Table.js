@@ -13,12 +13,14 @@ const TableHeader = () => {
 };
 
 const TableBody = (props) => {
-  const { linkData, /*removeLink,*/ searchTerm } = props;
-  console.log(linkData)
+  const { linkData, searchTerm } = props;
 
-  let data = linkData ? linkData : [] 
+  let data = linkData ? linkData : [];
   const filteredData = data.filter((link) => {
-    return link.name.includes(searchTerm) || link.URL.includes(searchTerm);
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const lowerCaseName = link.name.toLowerCase();
+    const lowerCaseURL = link.URL.toLowerCase();
+    return lowerCaseName.includes(lowerCaseSearchTerm) || lowerCaseURL.includes(lowerCaseSearchTerm);
   });
 
   const rows = filteredData.map((row, index) => {

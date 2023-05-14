@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import Table from './Table';
-import Form from './Form';
-//import { response } from 'express';
+import Form from './Form'
 
 const LinkContainer = (props) => {
   const [favLinks, setFavLinks] = useState([]);
 
   useEffect(() => {
-    const favLinks = JSON.parse(localStorage.getItem('links'));
-    if (favLinks) {
-      setFavLinks(favLinks);
+    const getLinks = async () => { 
+    const data = await fetch('/links')
+    const json = await data.json()
+    setFavLinks(json)
     }
-  }, []);
+    getLinks()
+    .catch(console.err)
+  }, [favLinks])
 
-  useEffect(() => {
-    localStorage.setItem('links', JSON.stringify(favLinks));
-  }, [favLinks]);
+  const handleRemove = async (id) => {
+    await fetch(`/links/${id}`, 
+    { method: 'DELETE' })  
+  }
 
-  const handleRemove = (index) => {
-    setFavLinks(favLinks.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = (favLink) => { 
-     setFavLinks([...favLinks, favLink]);
-  };
+  const handleSubmit = async (form) => {
+    await fetch(`/links`, { method: 'POST', 
+    headers: {
+       'Content-Type': 'application/json' },body: 
+       JSON.stringify({name:form.name,url:form.url})})
+  }
 
   return (
     <div className="container">
